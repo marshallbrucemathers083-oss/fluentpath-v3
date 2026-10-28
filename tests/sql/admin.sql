@@ -1,0 +1,33 @@
+do $$ declare lesson uuid; exercise uuid; practice uuid; question uuid; post uuid; reply uuid; report uuid; context jsonb; stats jsonb;
+begin
+ if not public.is_admin() then raise exception 'Synthetic administrator not authorized'; end if;
+ stats:=public.admin_platform_stats();
+ if (stats->>'users')::integer<3 then raise exception 'Admin statistics incomplete'; end if;
+ if not exists(select 1 from public.exercise_options) then raise exception 'Admin cannot manage keys'; end if;
+ insert into public.lessons(title,slug,description,cefr_level,category,is_published)
+ values('RLS content fixture','rls-content-fixture','Synthetic admin workflow','A1','grammar',false) returning id into lesson;
+ insert into public.lesson_sections(lesson_id,title,content,order_index) values(lesson,'Verb agreement','Use are with a plural subject such as they.',1);
+ exercise:=public.admin_save_material('exercise',null,jsonb_build_object('lesson_id',lesson,'exercise_type','multiple_choice','prompt','They ___ ready.','options',jsonb_build_array(jsonb_build_object('option_text','are','is_correct',true,'explanation','They is a plural subject.'),jsonb_build_object('option_text','is','is_correct',false,'explanation','Is takes a singular subject.'))));
+ perform public.admin_save_material('exercise',exercise,jsonb_build_object('lesson_id',lesson,'exercise_type','multiple_choice','prompt','The friends ___ ready.','options',jsonb_build_array(jsonb_build_object('option_text','are','is_correct',true,'explanation','Friends is a plural subject.'),jsonb_build_object('option_text','is','is_correct',false,'explanation','Is takes a singular subject.'))));
+ perform public.admin_save_material('lesson',lesson,jsonb_build_object('title','Edited RLS content fixture','description','Synthetic edited description','cefr_level','A1','category','grammar','is_published',true,'archived',false));
+ if not exists(select 1 from public.lessons where id=lesson and is_published) then raise exception 'Publishing failed'; end if;
+ perform public.admin_save_material('lesson',lesson,jsonb_build_object('title','Edited RLS content fixture','description','Synthetic edited description','cefr_level','A1','category','grammar','is_published',false,'archived',true));
+ if not exists(select 1 from public.lessons where id=lesson and not is_published and archived_at is not null) then raise exception 'Archiving failed'; end if;
+ practice:=public.admin_create_practice('{"kind":"set","title":"RLS practice fixture","description":"Unofficial fixture","cefr_level":"B1","duration_seconds":600}');
+ question:=public.admin_create_practice(jsonb_build_object('kind','question','exam_id',practice,'category','grammar','prompt','They ___ ready.','is_objective',true,'options',jsonb_build_array(jsonb_build_object('option_text','are','is_correct',true,'explanation','They takes are.'),jsonb_build_object('option_text','is','is_correct',false,'explanation','They does not take is.'))));
+ perform public.admin_set_practice_status(practice,true);
+ perform public.admin_set_practice_status(practice,false);
+ post:=public.create_forum_thread('RLS moderation fixture','Synthetic content for moderation workflow tests.');
+ reply:=public.create_forum_reply(post,'Synthetic reply context.');
+ report:=public.report_forum_content('reply',reply,'Spam or advertising: synthetic report');
+ context:=public.admin_report_context(report);
+ if context->'report' ? 'reporter_id' then raise exception 'Context exposes unnecessary reporter identifier'; end if;
+ if context->'parent'->>'id'<>post::text then raise exception 'Parent context missing'; end if;
+ perform public.moderate_forum_content('reply',reply,'removed');
+ if not exists(select 1 from public.forum_replies where id=reply and status='removed') then raise exception 'Removal failed'; end if;
+ perform public.moderate_forum_content('reply',reply,'published');
+ if not exists(select 1 from public.forum_replies where id=reply and status='published') then raise exception 'Restoration failed'; end if;
+ perform public.moderate_forum_report(report,'dismiss');
+ if not exists(select 1 from public.forum_reports where id=report and status='dismissed') then raise exception 'Dismissal failed'; end if;
+ if not exists(select 1 from public.moderation_history where target_id=report and actor_id=auth.uid()) then raise exception 'Moderation audit missing'; end if;
+end $$;

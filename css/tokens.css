@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap');
+
+:root {
+  color-scheme: light;
+  --paper: #f6f3ec;
+  --surface: #fffefa;
+  --ink: #202923;
+  --muted: #5c6960;
+  --line: #dcded5;
+  --control-border: #778379;
+  --green: #235e48;
+  --green-dark: #174431;
+  --green-soft: #e3eee6;
+  --orange: #bd4b2c;
+  --orange-soft: #fae9df;
+  --yellow: #e5c166;
+  --danger: #a6342a;
+  --radius: 16px;
+  --radius-lg: 26px;
+  --shadow: 0 12px 38px rgba(32, 41, 35, .08);
+  --content: 1180px;
+  font-family: 'DM Sans', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
