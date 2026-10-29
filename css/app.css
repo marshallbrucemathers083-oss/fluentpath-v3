@@ -1,6 +1,6 @@
 .app-body { background: #f3f2ec; }
 .app-layout { min-height: 100vh; display: grid; grid-template-columns: 246px minmax(0, 1fr); }
-.sidebar { position: sticky; top: 0; height: 100dvh; padding: 24px 15px 13px; display: flex; flex-direction: column; border-right: 1px solid var(--line); background: #f8f6f0; }
+.sidebar { position: sticky; top: 0; height: 100dvh; overflow-y: auto; padding: 24px 15px 13px; display: flex; flex-direction: column; border-right: 1px solid var(--line); background: #f8f6f0; }
 .sidebar .brand { padding: 0 9px 27px; }
 .nav-caption { padding: 0 12px 8px; color: #69746b; font-size: .69rem; font-weight: 700; letter-spacing: .12em; }
 .sidebar nav { display: grid; gap: 4px; }
@@ -65,7 +65,7 @@
 .empty-state h2, .error-state h2 { color: var(--ink); }
 .exercise-option { width: 100%; min-height: 49px; margin: 6px 0; padding: 11px 14px; border: 1px solid var(--control-border); border-radius: 9px; background: #fff; text-align: left; cursor: pointer; }
 .exercise-option:hover { border-color: var(--green); background: #f7fbf6; }
-.exercise-option[aria-pressed="true"] { border: 2px solid var(--green); background: var(--green-soft); }
+.exercise-option[aria-pressed="true"] { border-color: var(--green); box-shadow: inset 0 0 0 1px var(--green); background: var(--green-soft); }
 .feedback { margin-top: 15px; padding: 14px; border-radius: 9px; background: var(--green-soft); color: var(--green-dark); }
 .feedback.incorrect { background: #fff1ed; color: #7e2d23; }
 .lesson-content { max-width: 760px; }
@@ -203,4 +203,77 @@
   #view, #view > :first-child, .feedback:not([hidden]), .loading-state { animation: none; }
   .exercise-option, .progress-track i { transition: none; }
   .exercise-option:active { transform: none; }
+}
+
+.panel, .stack, .metric, .panel-heading > *, .rank-row > *, .achievement-row > * { min-width: 0; }
+.panel-heading { flex-wrap: wrap; }
+.panel-heading h2 { flex: 1 1 180px; }
+.panel-heading .form-actions { flex-wrap: wrap; }
+.crumb .crumb-context { color: var(--muted); }
+.welcome-art { border-radius: 0; background: none; transform: none; border-left: 1px solid #b7c9b8; }
+.metric { border-radius: 6px; }
+.metric b, .rank-xp { font-variant-numeric: tabular-nums; }
+.lesson-section p { line-height: 1.8; }
+.exercise-card { border-top: 3px solid var(--green); }
+.exercise-option { overflow-wrap: anywhere; }
+.exam-option:has(input:checked) { background: var(--green-soft); box-shadow: inset 3px 0 var(--green); }
+.exam-option input { flex: none; }
+.member-actions select { border-color: var(--control-border); padding: 7px; }
+.loading-state { background: var(--green-soft); animation: none; border-radius: var(--radius); display: grid; place-items: center; }
+.empty-state, .error-state { text-align: left; border-left: 3px solid var(--control-border); background: var(--surface); }
+.error-state { border-color: var(--danger); }
+.top-avatar { width: 44px; height: 44px; }
+.mobile-nav a[aria-current="page"] { background: var(--green-soft); border-color: var(--green); font-weight: 700; }
+@media (max-width: 680px) {
+ .panel, .exercise-card { padding: 18px; }
+ .mobile-nav:not([hidden]) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+ .panel-heading { align-items: flex-start; }
+ .option-row { grid-template-columns: minmax(0, 1fr); }
+ .exam-question { padding: 12px; }
+ .form-actions .button { flex: 1 1 140px; }
+ .metric-row { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+ .crumb { white-space: normal; overflow-wrap: anywhere; }
+}
+
+.sidebar nav a, .mobile-nav a, .member-actions select { transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease; }
+.sidebar nav a[aria-current="page"] { box-shadow: inset 3px 0 var(--green); }
+.exercise-option { transition-duration: 200ms; }
+#view, #view > :first-child { animation: none; }
+.feedback:not([hidden]) { animation-duration: 450ms; }
+
+/* Admin rows have details + actions, unlike the learner's marker + details + link. */
+.admin-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+.admin-panel { container-type: inline-size; }
+.admin-lesson-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; padding-block: 16px; border-bottom: 1px solid var(--line); }
+.admin-lesson-row:last-child { border-bottom: 0; }
+.admin-lesson-row > div { min-width: 0; }
+.admin-lesson-row h3 { margin: 0 0 4px; font-size: .95rem; line-height: 1.5; overflow-wrap: break-word; word-break: normal; }
+.admin-lesson-row small { display: block; color: var(--muted); line-height: 1.6; }
+.admin-lesson-row .form-actions { justify-content: flex-end; gap: 8px; flex-wrap: nowrap; }
+.admin-lesson-row .button { flex: none; min-height: 44px; padding: 9px 12px; font-size: .85rem; }
+.admin-member-row { grid-template-columns: minmax(0, 1fr) 140px; gap: 16px; padding-block: 16px; }
+.admin-member-row .member-main h3 { line-height: 1.5; }
+.admin-member-row .member-main small { display: block; margin-top: 4px; line-height: 1.6; overflow-wrap: anywhere; }
+.admin-member-row .member-actions { grid-template-columns: 1fr; gap: 8px; }
+.admin-member-row .member-actions select { width: 100%; max-width: none; color: var(--ink); }
+.admin-member-row .member-actions .button { padding: 9px 12px; min-height: 44px; }
+.admin-member-row select:disabled { opacity: .65; cursor: not-allowed; }
+.admin-workbench { margin-top: 24px; }
+.admin-workbench form { max-width: 860px; }
+.admin-workbench details { padding-block: 12px; border-top: 1px solid var(--line); }
+.admin-workbench summary { min-height: 44px; padding-block: 10px; overflow-wrap: anywhere; }
+.admin-workbench pre { max-width: 100%; }
+.admin-workbench h3 { margin-top: 28px; }
+.admin-dialog .panel-heading { display: grid; grid-template-columns: minmax(0, 1fr) 44px; align-items: start; }
+.admin-dialog .panel-heading > * { min-width: 0; }
+.admin-dialog .option-row { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+.admin-dialog input, .admin-workbench input { max-width: 100%; }
+@media (min-width: 1200px) {
+ .admin-grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+}
+@container (max-width: 460px) {
+ .admin-lesson-row { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+ .admin-lesson-row .form-actions { justify-content: flex-start; flex-wrap: wrap; }
+ .admin-member-row { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+ .admin-member-row .member-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

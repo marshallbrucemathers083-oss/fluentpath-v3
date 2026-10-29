@@ -1,4 +1,4 @@
-.site-header { position: sticky; z-index: 20; top: 0; border-bottom: 1px solid #dcded5cc; background: #f6f3eced; backdrop-filter: blur(12px); }
+.site-header { position: sticky; z-index: 20; top: 0; border-bottom: 1px solid #dcded5cc; background: var(--paper); }
 .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; letter-spacing: -.04em; font-size: 1.14rem; white-space: nowrap; }
 .brand-mark { display: grid; place-items: center; width: 32px; height: 32px; background: var(--green); color: white; border-radius: 9px 9px 9px 3px; font-family: 'Newsreader', Georgia, serif; font-size: 1.25rem; }
@@ -21,7 +21,7 @@
 .preview-lesson { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 13px; padding: 15px 13px; border-bottom: 1px solid #d7dbd1; }
 .preview-lesson:last-child { border-bottom: 0; }
 .preview-symbol { display: grid; place-items: center; width: 39px; height: 39px; border-radius: 50%; background: #fffefa; color: var(--green); font-family: 'Newsreader', Georgia, serif; font-size: 1.13rem; }
-.preview-lesson.active { margin: 0 -6px; padding-inline: 19px; border-radius: 10px; border: 1px solid #c8d9cb; background: #fffefa; }
+
 .preview-lesson small { display: block; color: var(--muted); font-size: .77rem; }
 .preview-lesson b { font-size: .91rem; }
 .preview-progress { width: 45px; height: 4px; border-radius: 9px; background: #dce3da; }
@@ -62,7 +62,7 @@
   .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; padding: 12px 20px 18px; border-bottom: 1px solid var(--line); background: var(--paper); flex-direction: column; align-items: stretch; gap: 0; }
   .nav-links[data-open="true"] { display: flex; }
   .nav-links a { padding: 12px 5px; border-bottom: 1px solid var(--line); }
-  .nav-actions .button-secondary { display: none; }
+  .nav-actions .button-primary { display: none; }
   .hero { padding: 56px 0; }
   .hero-grid { grid-template-columns: 1fr; }
   .hero h1 { max-width: 570px; font-size: clamp(3rem, 13vw, 4.7rem); }
@@ -90,3 +90,34 @@
   .practice-strip .button { width: 100%; }
   .community-line, .footer-row { grid-template-columns: 1fr; display: grid; }
 }
+
+.hero { border-bottom: 1px solid var(--line); }
+.path-preview { background: var(--surface); box-shadow: 8px 8px 0 #e4e7dc; border-radius: 10px; }
+.preview-top { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+
+.level h3 { font-size: 2.2rem; }
+.level-code { font-size: .68rem; letter-spacing: .05em; }
+.nav-links a { text-underline-offset: 5px; }
+.nav-links a:hover { text-decoration: underline; }
+@media (min-width: 741px) and (max-width: 1100px) {
+ .nav { flex-wrap: wrap; padding-block: 12px; gap: 10px 20px; }
+ .nav-links { order: 3; width: 100%; justify-content: space-between; }
+}
+@media (max-width: 740px) {
+ .nav-links { top: 100%; max-height: 70dvh; overflow-y: auto; }
+ .hero { padding-block: 40px 48px; }
+ .hero-copy { font-size: 1rem; }
+ .path-preview { margin-right: 8px; }
+ .nav-actions .button-secondary { padding-inline: 12px; }
+}
+
+.headline-line { display: inline-block; }
+.preview-instruction { margin: 0 0 14px; color: var(--muted); font-size: .76rem; }
+.preview-lesson { width: 100%; grid-template-columns: 44px minmax(0, 1fr); margin: 4px 0; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--ink); text-align: left; cursor: pointer; transition: background-color 200ms ease, border-color 200ms ease; }
+.preview-lesson:last-child { border: 1px solid transparent; }
+.preview-lesson[aria-pressed="true"] { background: var(--green-soft); border-color: var(--green); }
+@media (hover: hover) {
+ .path-preview:has(.preview-lesson:hover) .preview-lesson[aria-pressed="true"]:not(:hover) { background: transparent; border-color: transparent; }
+ .preview-lesson:hover { background: var(--green-soft); border-color: var(--green); }
+}
+@media (max-width: 480px) { .preview-lesson { grid-template-columns: 38px minmax(0, 1fr); } }

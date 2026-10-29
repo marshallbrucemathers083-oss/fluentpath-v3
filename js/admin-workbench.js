@@ -7,7 +7,7 @@ const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp
 
 export async function mountWorkbench(view, notify) {
   const host = document.createElement('section');
-  host.className = 'panel';
+  host.className = 'panel admin-workbench';
   host.innerHTML = '<h2>Content and moderation workbench</h2><p role="status">Loading administrative records…</p>';
   view.append(host);
   try {

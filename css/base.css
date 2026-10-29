@@ -47,3 +47,21 @@ img, svg { max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Shared identity and resilient content sizing across public and workspace pages. */
+.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 700; font-size: 1.14rem; letter-spacing: -.04em; text-decoration: none; white-space: nowrap; }
+.brand .brand-mark { display: block; width: 36px; height: 36px; flex: none; background: none; border-radius: 0; }
+button, select, summary { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .65; }
+input, textarea, select { min-width: 0; }
+input, textarea { scroll-margin-block: 100px; }
+h1, h2, h3, p, .notice, .status { overflow-wrap: anywhere; }
+.button { text-align: center; }
+.button:disabled:hover { transform: none; }
+:target { scroll-margin-top: 90px; }
+
+.button, .filter-button, .level-choice, .icon-close, .mobile-menu, .nav-toggle { transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease; }
+.button:active:not(:disabled) { transform: translateY(1px); }
+.field input, .field select, .field textarea { transition: border-color 200ms ease, box-shadow 200ms ease; }
+.field :user-invalid { border-color: var(--danger); box-shadow: inset 3px 0 var(--danger); }
+@media (prefers-reduced-motion: reduce) { .button:active:not(:disabled) { transform: none; } }

@@ -1,5 +1,5 @@
-body { min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, #e7ece2 0, var(--paper) 58%); }
-.auth-shell { width: min(calc(100% - 32px), 470px); min-height: 100vh; margin-inline: auto; padding: 34px 0; display: flex; flex-direction: column; justify-content: center; }
+body { min-height: 100dvh; background: var(--paper); }
+.auth-shell { width: min(calc(100% - 32px), 470px); min-height: 100dvh; margin-inline: auto; padding: 34px 0; display: flex; flex-direction: column; justify-content: center; }
 .auth-shell > .brand { margin: 0 auto 22px; }
 .auth-card { padding: clamp(23px, 6vw, 42px); box-shadow: var(--shadow); }
 .auth-card h1 { margin: 8px 0; font: 400 clamp(2.2rem, 8vw, 3.1rem)/1 'Newsreader', Georgia, serif; letter-spacing: -.04em; }
@@ -10,3 +10,6 @@ body { min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, #e7ece2
 .auth-links a { color: var(--green-dark); font-weight: 700; }
 .auth-foot { margin: 16px auto 0; color: var(--muted); font-size: .85rem; }
 #auth-status:empty { min-height: 0; }
+
+.auth-card { border-top: 3px solid var(--green); }
+.auth-links a { display: inline-flex; align-items: center; min-height: 44px; }
